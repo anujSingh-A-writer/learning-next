@@ -60,7 +60,6 @@ const Auth = () => {
   return (
     <div>
       <h2>{authState === "login" ? "Sign In" : "Register"}</h2>
-
       {/* NAME */}
       {authState === "register" && (
         <>
@@ -76,7 +75,6 @@ const Auth = () => {
           <br />
         </>
       )}
-
       {/* EMAIL */}
       <label htmlFor='email'>Email</label>
       <input
@@ -88,7 +86,6 @@ const Auth = () => {
         onChange={setEmailHandler}
       />
       <br />
-
       {/* PASSWORD */}
       <label htmlFor='password'>Password</label>
       <input
@@ -100,14 +97,16 @@ const Auth = () => {
         onChange={setPasswordHandler}
       />
       <br />
-
       <button
         onClick={authState === "login" ? login : register}
         className='border-2 border-black'
       >
         {authState === "login" ? "Login" : "Sign Up"}
       </button>
-      <FcGoogle size={30} />
+      <FcGoogle
+        size={30}
+        onClick={() => signIn("google", { callbackUrl: "/" })}
+      />
       <FaGithub
         size={30}
         onClick={() => signIn("github", { callbackUrl: "/" })}
