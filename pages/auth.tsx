@@ -1,10 +1,41 @@
+import axios from "axios";
 import React, { useCallback, useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const Auth = () => {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [authState, setAuthState] = useState("login");
+
+  const login = useCallback(async () => {
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+
+      router.push("/");
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  }, [email, password, router]);
+
+  const register = useCallback(async () => {
+    try {
+      await axios.post("/api/register", { email, name, password });
+      login();
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  }, [email, name, password, login]);
 
   const toggleAuthState = useCallback(() => {
     setAuthState((prevAuthState) =>
@@ -68,7 +99,10 @@ const Auth = () => {
       />
       <br />
 
-      <button className='border-2 border-black'>
+      <button
+        onClick={authState === "login" ? login : register}
+        className='border-2 border-black'
+      >
         {authState === "login" ? "Login" : "Sign Up"}
       </button>
       <p onClick={toggleAuthState}>
