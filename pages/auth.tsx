@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 const Auth = () => {
   const router = useRouter();
@@ -105,6 +107,11 @@ const Auth = () => {
       >
         {authState === "login" ? "Login" : "Sign Up"}
       </button>
+      <FcGoogle size={30} />
+      <FaGithub
+        size={30}
+        onClick={() => signIn("github", { callbackUrl: "/" })}
+      />
       <p onClick={toggleAuthState}>
         {authState === "login"
           ? "First time? Create an account"
