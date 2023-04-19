@@ -1,10 +1,13 @@
 import axios from "axios";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
+import { layout } from "@/styles/style";
+import Input from "@/components/Input";
+import { AuthState, FieldType, fields } from "@/constants/formFields";
 
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
@@ -22,111 +25,119 @@ export async function getServerSideProps(context: NextPageContext) {
 }
 
 const Auth = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [authState, setAuthState] = useState("login");
+  const [credentials, setCredentials] = useState<{
+    name: string;
+    email: string;
+    password: string;
+  }>({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-  const login = useCallback(async () => {
+  const [authState, setAuthState] = useState(AuthState.SIGN_IN);
+
+  const login = async () => {
     try {
       await signIn("credentials", {
-        email,
-        password,
+        email: credentials.email,
+        password: credentials.password,
         callbackUrl: "/",
       });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
     }
-  }, [email, password]);
+  };
 
-  const register = useCallback(async () => {
+  const register = async () => {
     try {
-      await axios.post("/api/register", { email, name, password });
+      await axios.post("/api/register", { ...credentials });
       login();
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
     }
-  }, [email, name, password, login]);
+  };
 
+  const credentialsHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.id;
+    const value = e.target.value;
+
+    setCredentials({ ...credentials, [name]: value });
+  };
   const toggleAuthState = useCallback(() => {
     setAuthState((prevAuthState) =>
-      prevAuthState === "login" ? "register" : "login"
+      prevAuthState === AuthState.SIGN_IN
+        ? AuthState.SIGN_UP
+        : AuthState.SIGN_IN
     );
   }, []);
 
-  function setNameHandler(e: any) {
-    setName(e.target.value);
-  }
-
-  function setEmailHandler(e: any) {
-    setEmail(e.target.value);
-  }
-
-  function setPasswordHandler(e: any) {
-    setPassword(e.target.value);
-  }
-
   return (
-    <div>
-      <h2>{authState === "login" ? "Sign In" : "Register"}</h2>
-      {/* NAME */}
-      {authState === "register" && (
-        <>
-          <label htmlFor='name'>Name</label>
-          <input
-            className='border-2 border-black'
-            type='text'
-            name=''
-            id='name'
-            value={name}
-            onChange={setNameHandler}
-          />
-          <br />
-        </>
-      )}
-      {/* EMAIL */}
-      <label htmlFor='email'>Email</label>
-      <input
-        className='border-2 border-black'
-        type='email'
-        name=''
-        id='email'
-        value={email}
-        onChange={setEmailHandler}
-      />
-      <br />
-      {/* PASSWORD */}
-      <label htmlFor='password'>Password</label>
-      <input
-        className='border-2 border-black'
-        type='password'
-        name=''
-        id='password'
-        value={password}
-        onChange={setPasswordHandler}
-      />
-      <br />
-      <button
-        onClick={authState === "login" ? login : register}
-        className='border-2 border-black'
-      >
-        {authState === "login" ? "Login" : "Sign Up"}
-      </button>
-      <FcGoogle
-        size={30}
-        onClick={() => signIn("google", { callbackUrl: "/" })}
-      />
-      <FaGithub
-        size={30}
-        onClick={() => signIn("github", { callbackUrl: "/" })}
-      />
-      <p onClick={toggleAuthState}>
-        {authState === "login"
-          ? "First time? Create an account"
-          : "Have an account? Login"}
-      </p>
+    <div className={`${layout.flex.col.center} h-screen bg-blue-300`}>
+      <div className='py-10 px-4 md:px-10 shadow-xl rounded-2xl bg-white w-[90%] lg:w-3/5 xl:w-1/3'>
+        <h1 className='text-center text-5xl font-semibold mb-5'>
+          {authState === AuthState.SIGN_IN ? "Login" : "Sign Up"}
+        </h1>
+
+        <div className={layout.flex.col.center + "gap-4 "}>
+          {/* NAME */}
+          {fields
+            .filter(
+              (eachField) =>
+                !eachField.authState || eachField.authState === authState
+            )
+            .map((eachField: FieldType) => (
+              <Input
+                key={eachField.id}
+                type={eachField.type}
+                labelText={eachField.labelText}
+                id={eachField.id}
+                value={credentials[eachField.id]}
+                onChange={credentialsHandler}
+              />
+            ))}
+
+          <button
+            onClick={authState === AuthState.SIGN_IN ? login : register}
+            className='shadow-xl rounded-sm bg-blue-600 hover:bg-blue-500 text-white text-center uppercase w-full p-2'
+          >
+            {authState === AuthState.SIGN_IN ? "Login" : "Sign Up"}
+          </button>
+          <div className={`${layout.flex.row.center} gap-6 w-full `}>
+            <div
+              className={`${layout.flex.row.center} p-2 rounded-full shadow-xl cursor-pointer`}
+              onClick={() => signIn("google", { callbackUrl: "/" })}
+            >
+              <FcGoogle size={30} />
+            </div>
+            <div
+              className={`${layout.flex.row.center} p-2 rounded-full shadow-xl cursor-pointer`}
+              onClick={() => signIn("github", { callbackUrl: "/" })}
+            >
+              <FaGithub size={30} />
+            </div>
+          </div>
+          <a onClick={toggleAuthState}>
+            {authState === AuthState.SIGN_IN ? (
+              <p className='font-semibold'>
+                Don't have an account yet?{" "}
+                <span className='cursor-pointer hover:underline text-blue-700'>
+                  Sign Up
+                </span>
+              </p>
+            ) : (
+              <p className='font-semibold'>
+                Already have an account?{" "}
+                <span className='cursor-pointer hover:underline text-blue-700'>
+                  LogIn
+                </span>
+              </p>
+            )}
+          </a>
+        </div>
+      </div>
     </div>
   );
 };
