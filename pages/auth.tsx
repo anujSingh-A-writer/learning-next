@@ -29,6 +29,7 @@ const Auth = () => {
     name: string;
     email: string;
     password: string;
+    [key: string]: string;
   }>({
     name: "",
     email: "",
@@ -122,7 +123,7 @@ const Auth = () => {
           <a onClick={toggleAuthState}>
             {authState === AuthState.SIGN_IN ? (
               <p className='font-semibold'>
-                Don't have an account yet?{" "}
+                {"Don't have an account yet?"}
                 <span className='cursor-pointer hover:underline text-blue-700'>
                   Sign Up
                 </span>

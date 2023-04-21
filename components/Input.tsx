@@ -1,4 +1,5 @@
 type InputProps = {
+  // eslint-disable-next-line no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isRequired: boolean;
   value: string;
