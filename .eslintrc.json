@@ -2,8 +2,9 @@
   "extends": ["next", "next/core-web-vitals", "prettier"],
   "plugins": ["prettier"],
   "rules": {
-    "no-console": "warn",
+    "no-console": "error",
     "no-use-before-define": "error",
-    "no-unused-vars": "error"
+    "no-unused-vars": "error",
+    "indent": ["error", 2]
   }
 }

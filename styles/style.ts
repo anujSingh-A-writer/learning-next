@@ -10,9 +10,9 @@ export const layout = {
 
     col: {
       center: "flex flex-col items-center justify-center ",
-      left: "flex flex-col items-start justify-start ",
+      top: "flex flex-col items-center justify-start ",
       spaceBetween: "flex flex-col justify-between ",
-      right: "flex flex-col items-end justify-end ",
+      bottom: "flex flex-col items-center justify-end ",
     },
   },
 };

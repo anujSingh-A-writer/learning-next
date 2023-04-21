@@ -1,4 +1,6 @@
 import { layout } from "@/styles/style";
+import SideNavigation from "./SideNav";
+import { AUTH } from "@/constants/routes";
 
 const Layout: React.FC<{ children: JSX.Element; path: string }> = ({
   children,
@@ -6,18 +8,18 @@ const Layout: React.FC<{ children: JSX.Element; path: string }> = ({
 }) => {
   let content = (
     <div className={`${layout.flex.row.spaceBetween} flex-1 h-screen w-full`}>
-      <nav className='w-1/6 border-2 bg-gray-500'>
-
+      <nav className='w-1/6'>
+        <SideNavigation />
       </nav>
       <div className={`${layout.flex.col.spaceBetween} w-5/6`}>
-        <header className='border-2 bg-green-500'></header>
-        <main className='border-2 bg-zinc-300 h-full'>{children}</main>
-        <footer className='border-2 bg-orange-500'></footer>
+        <header></header>
+        <main className=' h-full'>{children}</main>
+        <footer></footer>
       </div>
     </div>
   );
 
-  if (path === "/auth") {
+  if (path === AUTH) {
     content = children;
   }
   return content;
