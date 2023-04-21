@@ -8,13 +8,15 @@ import { getSession } from "next-auth/react";
 import { layout } from "@/styles/style";
 import Input from "@/components/Input";
 import { AuthState, FieldType, fields } from "@/constants/formFields";
+import { HOME } from "@/constants/routes";
+import { REGISTER } from "@/constants/endpoints";
 
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
   if (session) {
     return {
       redirect: {
-        destination: "/",
+        destination: HOME,
         permanent: false,
       },
     };
@@ -43,7 +45,7 @@ const Auth = () => {
       await signIn("credentials", {
         email: credentials.email,
         password: credentials.password,
-        callbackUrl: "/",
+        callbackUrl: HOME,
       });
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -53,7 +55,7 @@ const Auth = () => {
 
   const register = async () => {
     try {
-      await axios.post("/api/register", { ...credentials });
+      await axios.post(REGISTER, { ...credentials });
       login();
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -109,13 +111,13 @@ const Auth = () => {
           <div className={`${layout.flex.row.center} gap-6 w-full `}>
             <div
               className={`${layout.flex.row.center} p-2 rounded-full shadow-xl cursor-pointer`}
-              onClick={() => signIn("google", { callbackUrl: "/" })}
+              onClick={() => signIn("google", { callbackUrl: HOME })}
             >
               <FcGoogle size={30} />
             </div>
             <div
               className={`${layout.flex.row.center} p-2 rounded-full shadow-xl cursor-pointer`}
-              onClick={() => signIn("github", { callbackUrl: "/" })}
+              onClick={() => signIn("github", { callbackUrl: HOME })}
             >
               <FaGithub size={30} />
             </div>
