@@ -1,14 +1,12 @@
-export enum AuthState {
-  SIGN_IN = "SIGN_IN",
-  SIGN_UP = "SIGN_UP",
-}
 export type FieldType = {
-  labelText: string;
   id: string;
   name: string;
-  type: string;
-  isRequired: boolean;
-  authState?: AuthState;
+  description: string;
+  image: string;
+  price: number;
+  quantity: number;
+  unit: "KG" | "LTR" | "PCS";
+  additional: {};
 };
 
 export const fields = [
@@ -18,7 +16,6 @@ export const fields = [
     name: "name",
     type: "text",
     isRequired: true,
-    authState: AuthState.SIGN_UP,
   },
   {
     labelText: "Email address",

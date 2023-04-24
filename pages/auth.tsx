@@ -7,7 +7,7 @@ import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import { layout } from "@/styles/style";
 import Input from "@/components/Input";
-import { AuthState, FieldType, fields } from "@/constants/formFields";
+import { AuthState, FieldType, fields } from "@/constants/authFields";
 import { HOME } from "@/constants/routes";
 import { REGISTER } from "@/constants/endpoints";
 
