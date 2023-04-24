@@ -1,25 +1,24 @@
-/* import Input from "@/components/Input";
+import Input from "@/components/Input";
 import { FieldType, fields } from "@/constants/productFields";
-import React from "react";
+import { layout } from "@/styles/style";
 
-const create = () => {
+const Create = () => {
   return (
-    <div>
-      <form>
-        {fields.map((eachField: FieldType) => (
-          <Input
-            key={eachField.id}
-            type={eachField.type}
-            labelText={eachField.labelText}
-            id={eachField.id}
-            value={credentials[eachField.id]}
-            onChange={credentialsHandler}
-          />
-        ))}
-      </form>
+    <div className={`${layout.flex.row.center} h-full bg-slate-500`}>
+      <div className={`w-1/2 p-10`}>
+        <form className={`${layout.flex.col.center} w-full gap-5`}>
+          {fields.map((eachField: FieldType) => (
+            <Input
+              key={eachField.id}
+              id={eachField.id}
+              labelText={eachField.labelText}
+              type={eachField.type}
+            />
+          ))}
+        </form>
+      </div>
     </div>
   );
 };
 
-export default create;
- */
+export default Create;

@@ -1,15 +1,8 @@
-export type FieldType = {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-  price: number;
-  quantity: number;
-  unit: "KG" | "LTR" | "PCS";
-  additional: {};
-};
+import BaseFieldType from "./baseField";
 
-export const fields = [
+export interface FieldType extends BaseFieldType {}
+
+export const fields: FieldType[] = [
   {
     labelText: "Name",
     id: "name",
@@ -18,17 +11,10 @@ export const fields = [
     isRequired: true,
   },
   {
-    labelText: "Email address",
-    id: "email",
-    name: "email",
-    type: "email",
-    isRequired: true,
-  },
-  {
-    labelText: "Password",
-    id: "password",
-    name: "password",
-    type: "password",
-    isRequired: true,
+    labelText: "Description",
+    id: "description",
+    name: "description",
+    type: "text",
+    isRequired: false,
   },
 ];
