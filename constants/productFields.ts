@@ -17,4 +17,25 @@ export const fields: FieldType[] = [
     type: "text",
     isRequired: false,
   },
+  {
+    labelText: "Price",
+    id: "price",
+    name: "price",
+    type: "text",
+    isRequired: true,
+  },
+  {
+    labelText: "Quantity",
+    id: "quantity",
+    name: "quantity",
+    type: "number",
+    isRequired: true,
+  },
+  {
+    labelText: "Unit",
+    id: "unit",
+    name: "unit",
+    type: "text",
+    isRequired: true,
+  },
 ];
