@@ -1,6 +1,8 @@
 import Input from "@/components/Input";
+import { CREATE_PRODUCT } from "@/constants/endpoints";
 import { FieldType, fields } from "@/constants/productFields";
 import { layout } from "@/styles/style";
+import axios from "axios";
 import { useState } from "react";
 
 // types
@@ -17,15 +19,26 @@ const Create = () => {
   const [productDetails, setProductDetails] =
     useState<Partial<ProductDetails>>();
 
-  const handleCreate: React.FormEventHandler<HTMLFormElement> = (
+  const handleCreate: React.FormEventHandler<HTMLFormElement> = async (
     e: React.FormEvent<HTMLFormElement>
   ) => {
     // 👇️ prevent page refresh
     e.preventDefault();
+
+    // CALL CREATE API
+    await axios.post(CREATE_PRODUCT, productDetails).then(() => {
+      // const { data } = response;
+    });
+    // .catch((error) => {});
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProductDetails({ ...productDetails, [e.target.id]: e.target.value });
+    let value: string | number = e.target.value;
+    if (e.target.type === "number") {
+      value = parseFloat(value);
+    }
+
+    setProductDetails({ ...productDetails, [e.target.id]: value });
   };
 
   return (

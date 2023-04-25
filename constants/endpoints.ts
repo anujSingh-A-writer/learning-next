@@ -9,3 +9,4 @@ export enum REQUEST_METHOD {
 // API endpoint list
 export const ME = "api/me";
 export const REGISTER = "/api/register";
+export const CREATE_PRODUCT = "/api/products";

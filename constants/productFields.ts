@@ -21,7 +21,7 @@ export const fields: FieldType[] = [
     labelText: "Price",
     id: "price",
     name: "price",
-    type: "text",
+    type: "number",
     isRequired: true,
   },
   {
