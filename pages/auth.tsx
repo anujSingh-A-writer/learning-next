@@ -4,26 +4,17 @@ import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { NextPageContext } from "next";
-import { getSession } from "next-auth/react";
 import { layout } from "@/styles/style";
 import Input from "@/components/Input";
 import { AuthState, FieldType, fields } from "@/constants/authFields";
 import { HOME } from "@/constants/routes";
 import { REGISTER } from "@/constants/endpoints";
+import authenticatedRoute from "@/lib/authenticationCheck/authenticatedRoute";
 
 export async function getServerSideProps(context: NextPageContext) {
-  const session = await getSession(context);
-  if (session) {
-    return {
-      redirect: {
-        destination: HOME,
-        permanent: false,
-      },
-    };
-  }
-  return {
+  return authenticatedRoute(context, {
     props: {},
-  };
+  });
 }
 
 const Auth = () => {
