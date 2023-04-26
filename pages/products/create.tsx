@@ -1,5 +1,5 @@
 import Input from "@/components/Input";
-import { CREATE_PRODUCT } from "@/constants/endpoints";
+import { ENDPOINT } from "@/constants/endpoints";
 import { FieldType, fields } from "@/constants/productFields";
 import requireAuthentication from "@/lib/requireAuthentication";
 import { layout } from "@/styles/style";
@@ -34,7 +34,7 @@ const Create = () => {
     e.preventDefault();
 
     // CALL CREATE API
-    await axios.post(CREATE_PRODUCT, productDetails).then(() => {
+    await axios.post(ENDPOINT.CREATE_PRODUCT, productDetails).then(() => {
       // const { data } = response;
     });
     // .catch((error) => {});

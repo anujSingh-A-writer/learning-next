@@ -7,8 +7,8 @@ import { layout } from "@/styles/style";
 import Input from "@/components/Input";
 import { AuthState, FieldType, fields } from "@/constants/authFields";
 import { HOME } from "@/constants/routes";
-import { REGISTER } from "@/constants/endpoints";
 import { NextPageContext } from "next";
+import { ENDPOINT } from "@/constants/endpoints";
 
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
@@ -54,7 +54,7 @@ const Auth = () => {
 
   const register = async () => {
     try {
-      await axios.post(REGISTER, { ...credentials });
+      await axios.post(ENDPOINT.REGISTER, { ...credentials });
       login();
     } catch (error) {
       // eslint-disable-next-line no-console
