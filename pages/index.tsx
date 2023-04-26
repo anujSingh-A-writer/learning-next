@@ -1,4 +1,4 @@
-import requireAuthentication from "@/lib/authenticationCheck/requireAuthentication";
+import requireAuthentication from "@/lib/requireAuthentication";
 import { NextPageContext } from "next";
 
 export async function getServerSideProps(context: NextPageContext) {
